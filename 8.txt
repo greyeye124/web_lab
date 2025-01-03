@@ -1,11 +1,12 @@
 8.html
-
-<form action="http://localhost/cgi-bin/9.pl">
+ <form action="http://localhost/cgi-bin/8.pl">
+    <input type="text" name="no" placeholder="Enter No">
     <input type="text" name="title" placeholder="Enter Title">
+    <input type="text" name="author" placeholder="Enter Author">
+    <input type="text" name="edition" placeholder="Enter Edition">
     <input type="Submit" value="Submit"/>
 </form>
 
-8.pl
 
 #!"C:\xampp\perl\bin\perl.exe"
 
@@ -16,9 +17,15 @@ print "Content-type: text/html; \n\n";
 
 $db = DBI->connect("DBI:mysql:test;", 'root');
 
+$n = param('no');
 $t = param('title');
+$a = param('author');
+$e = param('edition');
 
-$q = $db->prepare("select * from book where title = '$t'");
+$q = $db->prepare("insert into book values($n, '$t', '$a', '$e')");
+$q->execute();
+
+$q = $db->prepare("select * from book");
 $q->execute();
 
 print "<table border=1px>";
